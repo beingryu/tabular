@@ -9,23 +9,11 @@ set cpo&vim
 
 " Private Functions                                                       {{{1
 
-" Return the number of bytes in a string after expanding tabs to spaces.  {{{2
+" Return the number of spaces which is equal to display a string after    {{{2
+" expanding tabs to spaces.
 " This expansion is done based on the current value of 'tabstop'
 function! s:Strlen(string)
-  let rv = 0
-  let i = 0
-
-  for char in split(a:string, '\zs')
-    if char == "\t"
-      let rv += &ts - i
-      let i = 0
-    else
-      let rv += 1
-      let i = (i + 1) % &ts
-    endif
-  endfor
-
-  return rv
+  return strwidth(substitute(a:string, "\t", repeat(' ', &ts), 'g'))
 endfunction
 
 " Align a string within a field                                           {{{2
